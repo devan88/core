@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileUpload.Api", "src\FileUpload.Api\FileUpload.Api.csproj", "{8661F753-EE12-4615-9EE8-AFCA4DC6BC95}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Extensions.Azure", "src\Core.Extensions.Azure\Core.Extensions.Azure.csproj", "{576FA3E7-FA32-4C8B-8DAA-73A11E9CEEFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Extensions.Hosting", "src\Core.Extensions.Hosting\Core.Extensions.Hosting.csproj", "{B14954C4-2ABA-46B5-939D-2CD9084B5F1A}"
@@ -43,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Hosting.AspNetCore.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Logging.AspNetCore.Serilog", "src\Core.Logging.AspNetCore.Serilog\Core.Logging.AspNetCore.Serilog.csproj", "{173342FE-06C9-43FE-B6F8-0C2BE252F9CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Extensions.Configuration", "src\Core.Extensions.Configuration\Core.Extensions.Configuration.csproj", "{53BEE4BD-AC63-4E8E-A6B2-CECA53D67945}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Extensions.Configuration", "src\Core.Extensions.Configuration\Core.Extensions.Configuration.csproj", "{53BEE4BD-AC63-4E8E-A6B2-CECA53D67945}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +49,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8661F753-EE12-4615-9EE8-AFCA4DC6BC95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8661F753-EE12-4615-9EE8-AFCA4DC6BC95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8661F753-EE12-4615-9EE8-AFCA4DC6BC95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8661F753-EE12-4615-9EE8-AFCA4DC6BC95}.Release|Any CPU.Build.0 = Release|Any CPU
 		{576FA3E7-FA32-4C8B-8DAA-73A11E9CEEFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{576FA3E7-FA32-4C8B-8DAA-73A11E9CEEFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{576FA3E7-FA32-4C8B-8DAA-73A11E9CEEFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
