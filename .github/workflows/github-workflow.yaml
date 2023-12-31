@@ -9,7 +9,7 @@ on:
 env:
   Solution: Core.sln
   Configuration: ${{ contains(fromJSON('["refs/head/release/"]'), github.ref) && 'Release' || 'Debug' }}
-  VersionSuffix: ${{ contains('refs/head/release', github.ref) && '' || contains('refs/head/main/', github.ref) && 'rc.${{ github.sha }}' || 'preview.${{ github.sha }}' }}
+  VersionSuffix: ${{ contains('refs/head/release', github.ref) && '' || contains('refs/head/main/', github.ref) && 'rc.$github.sha' || 'preview.$github.sha' }}
 jobs:
   dotnet-pack:
     runs-on: ubuntu-latest
