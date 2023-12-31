@@ -32,4 +32,4 @@ jobs:
       - name: Pack
         run: dotnet pack ${{ env.Solution }} --configuration ${{ env.Configuration }} --version-suffix ${{ env.VersionSuffix }} --no-restore --no-build
       - name: Push
-        run: dotnet nuget push "**/bin/${{ env.Configuration }}/*.nupkg"
+        run: dotnet nuget push "**/bin/${{ env.Configuration }}/*.nupkg" -k $NUGET_AUTH_TOKEN --source github
