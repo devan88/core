@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Cloud.KeyManagement.Azure\Core.Cloud.KeyManagement.Azure.csproj" />
+    <ProjectReference Include="..\Core.Cloud.Storage.Azure\Core.Cloud.Storage.Azure.csproj" />
+    <ProjectReference Include="..\Core.Hosting.AspNetCore.Swagger\Core.Hosting.AspNetCore.Swagger.csproj" />
+    <ProjectReference Include="..\Core.Hosting\Core.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

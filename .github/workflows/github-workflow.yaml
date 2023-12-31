@@ -1,0 +1,35 @@
+name: Nuget-Package
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+      - "release/*"
+      - "feature/*"
+env:
+  Solution: Core.sln
+  Configuration: ${{ contains(fromJSON('["refs/head/release/"]'), github.ref) && 'Release' || 'Debug' }}
+  VersionSuffix: ${{ contains('refs/head/release', github.ref) && '' || contains('refs/head/main/', github.ref) && 'rc' || 'preview' }}
+jobs:
+  dotnet-pack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.Solution }}
+      - name: Build
+        run: dotnet build ${{ env.Solution }} --configuration ${{ env.Configuration }} --no-restore
+      - name: Test
+        run: dotnet test ${{ env.Solution }} --configuration ${{ env.Configuration }} --no-restore --no-build
+      - name: Pack
+        run: dotnet build ${{ env.Solution }} --configuration ${{ env.Configuration }} --version-suffix ${{ env.VersionSuffix }} --no-restore --no-build
+      - name: Push
+        run: dotnet nuget push "**/bin/${{ env.Configuration }}/*.nupkg" --source github

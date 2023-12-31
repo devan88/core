@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.7"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <AssemblyVersion>8.0.0</AssemblyVersion>
+        <Version>1.0.0</Version>
+        <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+        <Version Condition="'$(Configuration)' == 'Debug' AND '$(VersionSuffix)' != ''">$(Version)-$(VersionSuffix)</Version>
+        <FileVersion>1.0.0</FileVersion>
+        <InformationalVersion>1.0.0</InformationalVersion>
+    </PropertyGroup>
+</Project>

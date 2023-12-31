@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="Versioning.Build.props" />
+  <PropertyGroup>
+    <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>Devan.$(MSBuildProjectName)</PackageId>
+    <Authors>Devan</Authors>
+    <Copyright>devan88</Copyright>
+    <TargetFramework>net8.0</TargetFramework>
+    <RepositoryUrl>https://github.com/devan88/core</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>embedded</DebugType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(IsTestProject)' == 'true' ">
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildStartupDirectory)/README.md" Pack="true" PackagePath="/"/>
+  </ItemGroup>
+</Project>

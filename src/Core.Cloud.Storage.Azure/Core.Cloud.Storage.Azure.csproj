@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Cloud.Configurations.Azure.Storage\Core.Cloud.Configurations.Azure.Storage.csproj" />
+    <ProjectReference Include="..\Core.Extensions.Azure\Core.Extensions.Azure.csproj" />
+    <ProjectReference Include="..\Core.Cloud.KeyManagement\Core.Cloud.KeyManagement.csproj" />
+    <ProjectReference Include="..\Core.Cloud.Storage\Core.Cloud.Storage.csproj" />
+  </ItemGroup>
+
+</Project>
