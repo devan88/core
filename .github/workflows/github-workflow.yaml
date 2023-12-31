@@ -30,6 +30,6 @@ jobs:
       - name: Test
         run: dotnet test ${{ env.Solution }} --configuration ${{ env.Configuration }} --no-restore --no-build
       - name: Pack
-        run: dotnet build ${{ env.Solution }} --configuration ${{ env.Configuration }} --version-suffix ${{ env.VersionSuffix }} --no-restore --no-build
+        run: dotnet pack ${{ env.Solution }} --configuration ${{ env.Configuration }} --version-suffix ${{ env.VersionSuffix }} --no-restore --no-build
       - name: Push
         run: dotnet nuget push "**/bin/${{ env.Configuration }}/*.nupkg" --source github
