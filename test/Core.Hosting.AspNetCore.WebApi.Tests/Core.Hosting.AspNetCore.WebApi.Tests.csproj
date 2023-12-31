@@ -8,6 +8,7 @@
     <UserSecretsId>b8f320a9-24d0-410e-8057-1e8eb0809dcb</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
