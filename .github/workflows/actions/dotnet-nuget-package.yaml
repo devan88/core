@@ -1,0 +1,46 @@
+name: "Package Nuget"
+description: "Build and package dotnet nuget"
+inputs:
+  dotnet-version:
+    required: true
+    type: string
+  solution:
+    required: true
+    type: string
+  configuration:
+    required: false
+    type: string
+    default: "Debug"
+  version-suffix:
+    required: false
+    type: string
+    default: ""
+  output-directory:
+    required: false
+    type: string
+    default: "./packages"
+  test:
+    required: false
+    type: boolean
+    default: false
+runs:
+  using: "composite"
+  steps:
+    - name: Setup .Net
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ fromJson(inputs.dotnet-version) }}
+    - name: Restore dependencies
+      run: dotnet restore ${{ inputs.solution }}
+    - name: Build
+      run: dotnet build ${{ inputs.solution }} --configuration ${{ inputs.configuration }} --no-restore
+    - name: Test
+      if: ${{ inputs.test }}
+      run: dotnet test ${{ inputs.solution }} --configuration ${{ inputs.configuration }} --no-restore --no-build
+    - name: Pack
+      run: dotnet pack ${{ inputs.solution }} --configuration ${{ inputs.configuration }} --version-suffix ${{ inputs.version-suffix }} --no-restore --no-build -o ${{ inputs.output-directory }}
+    - name: Publish
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-package
+        path: "${{ inputs.output-directory }}/*.nupkg" # or path/to/artifact
