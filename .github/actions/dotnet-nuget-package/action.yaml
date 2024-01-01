@@ -45,7 +45,7 @@ runs:
       run: dotnet build ${{ inputs.solution }} --configuration ${{ inputs.configuration }} --no-restore
       shell: bash
     - name: Test
-      if: ${{ inputs.test }}
+      if: ${{ inputs.test == 'true'}}
       run: dotnet test ${{ inputs.solution }} --configuration ${{ inputs.configuration }} --no-restore --no-build
       shell: bash
     - name: Pack
@@ -56,7 +56,7 @@ runs:
       with:
         name: nuget-package
         path: "${{ inputs.output-directory }}/*.nupkg" # or path/to/artifact
-    - name: push
+    - name: Push
       if: ${{ inputs.source != '' }}
       shell: bash
       run: dotnet nuget push "${{ inputs.output-directory }}/*.nupkg" --api-key ${{ inputs.token }} --source ${{ inputs.source }}
