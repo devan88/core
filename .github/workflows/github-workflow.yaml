@@ -19,7 +19,7 @@ jobs:
       - name: Package Nuget
         uses: ./.github/actions/dotnet-nuget-package
         with:
-          dotnet-version: "['7.0.x', '8.0.x']"
+          dotnet-version: '["7.0.x", "8.0.x"]'
           solution: ${{ env.Solution }}
           configuration: ${{ env.Configuration }}
           version-suffix: ${{ env.VersionSuffix }}
