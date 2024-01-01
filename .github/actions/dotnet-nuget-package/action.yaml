@@ -2,27 +2,27 @@ name: "Package Nuget"
 description: "Build and package dotnet nuget"
 inputs:
   dotnet-version:
+    description: "the dotnet version, list of versions"
     required: true
-    type: string
   solution:
+    description: "the solution (.sln) file"
     required: true
-    type: string
   configuration:
+    description: 'the build configuration either "Debug" or "Release"'
     required: false
-    type: string
     default: "Debug"
   version-suffix:
+    description: "the version suffix for the nuget package"
     required: false
-    type: string
     default: ""
   output-directory:
+    description: "the output directory that will contain the nupkg file(s)"
     required: false
-    type: string
     default: "./packages"
   test:
+    description: "should dotnet test be run before dotnet pack"
     required: false
-    type: boolean
-    default: false
+    default: "false"
 runs:
   using: "composite"
   steps:
@@ -32,13 +32,17 @@ runs:
         dotnet-version: ${{ fromJson(inputs.dotnet-version) }}
     - name: Restore dependencies
       run: dotnet restore ${{ inputs.solution }}
+      shell: bash
     - name: Build
       run: dotnet build ${{ inputs.solution }} --configuration ${{ inputs.configuration }} --no-restore
+      shell: bash
     - name: Test
       if: ${{ inputs.test }}
       run: dotnet test ${{ inputs.solution }} --configuration ${{ inputs.configuration }} --no-restore --no-build
+      shell: bash
     - name: Pack
       run: dotnet pack ${{ inputs.solution }} --configuration ${{ inputs.configuration }} --version-suffix ${{ inputs.version-suffix }} --no-restore --no-build -o ${{ inputs.output-directory }}
+      shell: bash
     - name: Publish
       uses: actions/upload-artifact@v4
       with:

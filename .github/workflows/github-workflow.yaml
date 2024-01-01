@@ -17,7 +17,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: Package Nuget
-        uses: ./.github/workflows/actions/dotnet-nuget-package.yaml
+        uses: ./.github/actions/dotnet-nuget-package
         with:
           dotnet-version: "['8.0.x']"
           solution: ${{ env.Solution }}
