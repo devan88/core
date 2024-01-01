@@ -23,6 +23,14 @@ inputs:
     description: "should dotnet test be run before dotnet pack"
     required: false
     default: "false"
+  source:
+    description: "nuget source url to push the package(s)"
+    required: false
+    default: ""
+  token:
+    description: "nuget source token"
+    required: false
+    default: ""
 runs:
   using: "composite"
   steps:
@@ -48,3 +56,7 @@ runs:
       with:
         name: nuget-package
         path: "${{ inputs.output-directory }}/*.nupkg" # or path/to/artifact
+    - name: push
+      if: ${{ inputs.source != '' }}
+      shell: bash
+      run: dotnet nuget push "${{ inputs.output-directory }}/*.nupkg" --api-key ${{ inputs.token }} --source ${{ inputs.source }}
