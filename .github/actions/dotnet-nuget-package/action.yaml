@@ -37,7 +37,8 @@ runs:
     - name: Setup .Net
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: ${{ inputs.dotnet-version }}
+        dotnet-version: |
+          ${{ inputs.dotnet-version }}
     - name: Restore dependencies
       run: dotnet restore ${{ inputs.solution }}
       shell: bash
