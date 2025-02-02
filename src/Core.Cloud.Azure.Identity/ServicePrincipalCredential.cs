@@ -1,4 +1,4 @@
-﻿namespace Core.Azure.Identity
+﻿namespace Core.Cloud.Azure.Identity
 {
     public record ServicePrincipalCredential
     {

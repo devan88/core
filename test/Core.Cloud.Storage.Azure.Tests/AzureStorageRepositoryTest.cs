@@ -1,3 +1,4 @@
+using System.Text;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using AutoMapper;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using System.Text;
 
 namespace Core.Cloud.Storage.Azure.Tests
 {

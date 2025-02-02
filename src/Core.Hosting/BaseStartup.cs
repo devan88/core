@@ -64,7 +64,7 @@ namespace Core.Hosting
                 builder.AddUserSecrets<T>(AppBuilder.Environment);
                 builder.TryAddKeyPerFile(Logger, ConfigureKeyPerFilePath?.Invoke(Configuration) ?? "/mnt/secrets/");
             };
-            
+
         }
 
         private void ConfigureValidation()

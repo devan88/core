@@ -1,5 +1,6 @@
-﻿using Azure.Identity;
-using Core.Azure.Identity;
+﻿using System.Reflection;
+using Azure.Identity;
+using Core.Cloud.Azure.Identity;
 using Core.Cloud.KeyManagement;
 using Core.Cloud.Storage;
 using Core.Cloud.Storage.Azure;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

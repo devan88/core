@@ -1,5 +1,5 @@
 ﻿using Azure.Core;
-using Core.Azure.Identity;
+using Core.Cloud.Azure.Identity;
 
 namespace Core.Cloud.Configurations.Azure.Storage
 {

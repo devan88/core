@@ -5,7 +5,7 @@ namespace Core.Cloud.Storage.Azure
 {
     public sealed class StorageItemProfile : Profile
     {
-        public StorageItemProfile() 
+        public StorageItemProfile()
         {
             CreateMap<BlobDownloadStreamingResult, StorageItem>()
                 .ForMember(d => d.Content, opt => opt.MapFrom(src => src.Content))
