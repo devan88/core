@@ -8,7 +8,7 @@
     <PackageId>Devan.$(MSBuildProjectName)</PackageId>
     <Authors>Devan</Authors>
     <Copyright>devan88</Copyright>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <RepositoryUrl>https://github.com/devan88/core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
