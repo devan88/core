@@ -28,4 +28,4 @@ jobs:
           output-directory: "./packages"
           test: false
           source: "github"
-          token: ${{ secrets.PUSH_PACKAGE }}
+          token: ${{ secrets.GITHUB_TOKEN }}
