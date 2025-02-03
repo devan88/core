@@ -39,6 +39,9 @@ runs:
       with:
         dotnet-version: |
           ${{ inputs.dotnet-version }}
+    - name: Dotnet Format
+      run: dotnet format --verify-no-changes
+      shell: bash
     - name: Restore dependencies
       run: dotnet restore ${{ inputs.solution }}
       shell: bash
