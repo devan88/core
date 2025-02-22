@@ -1,4 +1,5 @@
-﻿using Core.Extensions.Azure;
+﻿using Core.Cloud.KeyManagement.Azure;
+using Core.Extensions.Azure;
 using Core.Hosting.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;

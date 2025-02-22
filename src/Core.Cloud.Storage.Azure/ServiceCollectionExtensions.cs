@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Azure.Identity;
 using Core.Cloud.Azure.Identity;
+using Core.Cloud.Configurations.Azure.Storage;
 using Core.Cloud.KeyManagement;
 using Core.Cloud.Storage;
 using Core.Cloud.Storage.Azure;
@@ -21,14 +22,14 @@ namespace Microsoft.Extensions.DependencyInjection
             ILogger logger,
             Action<CredentialOptions> credentials = null)
         {
-            var configAzureStorages = configuration.GetAzureStorages();
+            IEnumerable<AzureStorage> configAzureStorages = configuration.GetAzureStorages();
             if (configAzureStorages.Any())
             {
                 services.AddAzureClients(builder =>
                 {
                     for (int i = 0; i < configAzureStorages.Count(); i++)
                     {
-                        var config = configAzureStorages.ElementAt(i);
+                        AzureStorage config = configAzureStorages.ElementAt(i);
                         builder
                         .AddBlobServiceClient(config.Uri())
                         .WithName(i == 0 ? "Default" : config.Name)
@@ -60,7 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
             IEnumerable<ServicePrincipalCredential> servicePrincipalCrendentials,
             Uri uri)
         {
-            foreach (var spc in servicePrincipalCrendentials)
+            foreach (ServicePrincipalCredential spc in servicePrincipalCrendentials)
             {
                 services.AddAzureClients(builder =>
                 {
@@ -79,9 +80,9 @@ namespace Microsoft.Extensions.DependencyInjection
             IServiceProvider provider,
             ServicePrincipalCredential spc)
         {
-            using var scope = provider.CreateScope();
-            var keyManagementRepository = scope.ServiceProvider.GetService<IKeyManagementRepository>();
-            var secret = keyManagementRepository.GetSecretAsync(spc.ClientSecretKey, default).Result;
+            using IServiceScope scope = provider.CreateScope();
+            IKeyManagementRepository keyManagementRepository = scope.ServiceProvider.GetService<IKeyManagementRepository>();
+            string secret = keyManagementRepository.GetSecretAsync(spc.ClientSecretKey, default).Result;
             return new ClientSecretCredential(spc.TenantId, spc.ClientId, secret);
         }
     }

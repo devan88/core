@@ -14,7 +14,7 @@ namespace Core.Logging.Serilog
         public Microsoft.Extensions.Logging.ILogger CreateLogger<T>(T type)
             where T : Type
         {
-            var serilogConsoleLogger = new LoggerConfiguration()
+            global::Serilog.Core.Logger serilogConsoleLogger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
                 .CreateLogger();

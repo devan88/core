@@ -14,12 +14,12 @@ namespace Core.Extensions.Configuration
             try
             {
                 var path = Path.Combine(Directory.GetCurrentDirectory(), keyPerFilePath);
-                logger.LogInformation("Using Key-per-file from: {path}", path);
+                logger.LogInformation("Using Key-per-file from:<{Path}>", path);
                 builder.AddKeyPerFile(path, true, true);
             }
             catch (Exception ex)
             {
-                logger.LogError("Error adding KeyPerFile: {@ex}", ex);
+                logger.LogError(ex, "Error adding KeyPerFile");
             }
             return builder;
         }

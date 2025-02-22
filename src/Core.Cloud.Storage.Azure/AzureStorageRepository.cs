@@ -24,67 +24,75 @@ namespace Core.Cloud.Storage.Azure
             IAzureClientFactory<BlobServiceClient> clientFactory,
             IMapper mapper)
         {
-            _logger = logger;
-            _azureStorageConfiguration = azureStorageConfiguration.Value;
-            _blobServiceClient = blobServiceClient;
-            _clientFactory = clientFactory;
-            _mapper = mapper;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _azureStorageConfiguration = azureStorageConfiguration.Value ?? throw new ArgumentNullException(nameof(azureStorageConfiguration));
+            _blobServiceClient = blobServiceClient ?? throw new ArgumentNullException(nameof(blobServiceClient));
+            _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        /// <inheritdoc/>
         public async Task CreatePathAsync(string path, CancellationToken cancellationToken = default)
         {
-            var blobContainerClient = _blobServiceClient.GetBlobContainerClient(path);
-            await blobContainerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
+            BlobContainerClient blobContainerClient = _blobServiceClient.GetBlobContainerClient(path);
+            await blobContainerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
+        /// <inheritdoc/>
         public async Task<StorageItem> DownloadItemAsync(StorageItemFilter filter, CancellationToken cancellationToken = default)
         {
-            var blobContainerClient = _blobServiceClient.GetBlobContainerClient(filter.Path);
-            var blobClient = blobContainerClient.GetBlobClient(filter.Name);
-            var blobItem = await blobClient.DownloadStreamingAsync(
+            BlobContainerClient blobContainerClient = _blobServiceClient.GetBlobContainerClient(filter.Path);
+            BlobClient blobClient = blobContainerClient.GetBlobClient(filter.Name);
+            global::Azure.Response<BlobDownloadStreamingResult> blobItem = await blobClient.DownloadStreamingAsync(
                 new BlobDownloadOptions()
                 {
                     ProgressHandler = filter.ProgressHandler
-                }, cancellationToken);
-            var storageItem = _mapper.Map<StorageItem>(blobItem.Value);
+                }, cancellationToken).ConfigureAwait(false);
+            StorageItem storageItem = _mapper.Map<StorageItem>(blobItem.Value);
             return storageItem;
         }
 
+        /// <inheritdoc/>
         public async Task<Uri> GenerateItemSignedUrlAsync(
             StorageItemFilter filter,
             StorageItemAccess storageItemAccess,
             TimeSpan duration,
             CancellationToken cancellationToken = default)
         {
-            var blobServiceSasClient = _clientFactory.CreateClient(_azureStorageConfiguration.SasClientName);
-            var blobClient = blobServiceSasClient.GetBlobContainerClient(filter.Path).GetBlobClient(filter.Name);
-            var permission = _mapper.Map<BlobSasPermissions>(storageItemAccess);
+            BlobServiceClient blobServiceSasClient = _clientFactory.CreateClient(_azureStorageConfiguration.SasClientName);
+            BlobClient blobClient = blobServiceSasClient.GetBlobContainerClient(filter.Path).GetBlobClient(filter.Name);
+            BlobSasPermissions permission = _mapper.Map<BlobSasPermissions>(storageItemAccess);
+
             // Get a user delegation key for the Blob service that's valid for the duration
-            var userDelegationKey = await blobServiceSasClient.GetUserDelegationKeyAsync(
+            global::Azure.Response<UserDelegationKey> userDelegationKey = await blobServiceSasClient.GetUserDelegationKeyAsync(
                 null,
                 DateTimeOffset.UtcNow.Add(duration),
-                cancellationToken);
-            var blobSasUri = CreateUserDelegationSasBlob(
+                cancellationToken).ConfigureAwait(false);
+
+            Uri blobSasUri = CreateUserDelegationSasBlob(
                 blobClient,
                 userDelegationKey,
                 duration,
                 permission);
+
             return blobSasUri;
         }
 
+        /// <inheritdoc/>
         public async Task<bool> UploadItemAsync(StorageItem storageItem, bool createPath = false, CancellationToken cancellationToken = default)
         {
             if (createPath)
             {
-                await CreatePathAsync(storageItem.Path, cancellationToken);
+                await CreatePathAsync(storageItem.Path, cancellationToken).ConfigureAwait(false);
             }
 
-            var blobContainerClient = _blobServiceClient.GetBlobContainerClient(storageItem.Path);
-            var blobClient = blobContainerClient.GetBlobClient(storageItem.Name);
+            BlobContainerClient blobContainerClient = _blobServiceClient.GetBlobContainerClient(storageItem.Path);
+            BlobClient blobClient = blobContainerClient.GetBlobClient(storageItem.Name);
 
             await WatchTaskAsync(
                 () => blobClient.UploadAsync(storageItem.Content, _azureStorageConfiguration.BlobUploadOptions, cancellationToken),
                 storageItem.Name).ConfigureAwait(false);
+
             return true;
         }
 
@@ -92,6 +100,7 @@ namespace Core.Cloud.Storage.Azure
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
+
             try
             {
                 return func();
@@ -100,10 +109,15 @@ namespace Core.Cloud.Storage.Azure
             {
                 stopWatch.Stop();
                 TimeSpan ts = stopWatch.Elapsed;
-                string eT = string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                   ts.Hours, ts.Minutes, ts.Seconds,
-                   ts.Milliseconds / 10);
-                _logger.LogDebug("File : {name} Upload Time: {eT}", name, eT);
+
+                string eT = string.Format(
+                    "{0:00}:{1:00}:{2:00}.{3:00}",
+                    ts.Hours,
+                    ts.Minutes,
+                    ts.Seconds,
+                    ts.Milliseconds / 10);
+
+                _logger.LogDebug("File : {Name} Upload Time: {ET}", name, eT);
             }
         }
 

@@ -14,12 +14,12 @@ namespace Microsoft.Extensions.Hosting
             }
             catch (Exception ex)
             {
-                Log.Fatal("App has encountered an error {@ex}", ex);
+                Log.Fatal(ex, "App has encountered an error");
             }
             finally
             {
                 Log.Information("Flushing all logs.");
-                Log.CloseAndFlush();
+                await Log.CloseAndFlushAsync();
             }
         }
     }

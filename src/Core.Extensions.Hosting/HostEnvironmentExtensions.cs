@@ -2,11 +2,11 @@
 {
     public static class HostEnvironmentExtensions
     {
-        private static readonly string LocalDevelopment = "LocalDevelopment";
+        private static readonly string s_localDevelopment = "LocalDevelopment";
 
         public static bool IsLocalDevelopment(this IHostEnvironment hostingEnvironment)
         {
-            return hostingEnvironment.IsEnvironment(LocalDevelopment);
+            return hostingEnvironment.IsEnvironment(s_localDevelopment);
         }
     }
 }

@@ -1,21 +1,58 @@
-﻿using Core.Cloud.Configurations.Azure.KeyVault;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Core.Cloud.Configurations.Azure.KeyVault
 {
+    /// <summary>
+    /// Extension methods for Azure key vault service collection
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddAzureKeyVaultOptions(this IServiceCollection services, IConfiguration configuration)
+        /// <summary>
+        /// Add <see cref="AzureKeyVault"/> option from section <see cref="Constants.AzureKeyVaultSection"/>
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/></param>
+        /// <param name="configuration"><see cref="IConfiguration"/></param>
+        /// <returns><see cref="IServiceCollection"/></returns>
+        public static IServiceCollection AddAzureKeyVaultOptions(
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.Configure<AzureKeyVault>(configuration.GetSection(Constants.AzureKeyVaultSection));
-            return services;
+            return services
+                .AddAzureKeyVaultOptions<AzureKeyVault>(configuration, Constants.AzureKeyVaultSection);
         }
 
-        public static IServiceCollection AddAzureKeyVaultOptions<T>(this IServiceCollection services, IConfiguration configuration)
+        /// <summary>
+        /// Add <see cref="AzureKeyVault"/> option from sectionName
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/></param>
+        /// <param name="configuration"><see cref="IConfiguration"/></param>
+        /// <param name="sectionName">configuration section name</param>
+        /// <returns><see cref="IServiceCollection"/></returns>
+        public static IServiceCollection AddAzureKeyVaultOptions(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            string sectionName)
+        {
+            return services
+                .AddAzureKeyVaultOptions<AzureKeyVault>(configuration, sectionName);
+        }
+
+        /// <summary>
+        /// Configure <see href="T"/> option from sectionName
+        /// </summary>
+        /// <typeparam name="T">class</typeparam>
+        /// <param name="services"><see cref="IServiceCollection"/></param>
+        /// <param name="configuration"><see cref="IConfiguration"/></param>
+        /// <param name="sectionName">configuration section name</param>
+        /// <returns><see cref="IServiceCollection"/></returns>
+        public static IServiceCollection AddAzureKeyVaultOptions<T>(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            string sectionName)
             where T : class
         {
-            services.Configure<T>(configuration.GetSection(Constants.AzureKeyVaultSection));
-            return services;
+            return services.Configure<T>(configuration.AzureKeyVaultConfiguration(sectionName));
         }
     }
 }
