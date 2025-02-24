@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -13,11 +13,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="8.0.2" />
+    <!--<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />-->
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Core.Hosting.AspNetCore.WebApi\Core.Hosting.AspNetCore.WebApi.csproj" />
+    <ProjectReference Include="..\..\src\Core.HttpClient.Authorization\Core.HttpClient.Authorization.csproj" />
     <ProjectReference Include="..\..\src\Core.Logging.AspNetCore.Serilog\Core.Logging.AspNetCore.Serilog.csproj" />
     <ProjectReference Include="..\..\src\Core.Logging.Serilog\Core.Logging.Serilog.csproj" />
   </ItemGroup>

@@ -3,7 +3,7 @@
     /// <summary>
     /// Base abstract class to support http client request.
     /// </summary>
-    public abstract class BaseHttpClient(
+    public class BaseHttpClient(
         System.Net.Http.HttpClient httpClient,
         IHttpContentFormatterFactory httpContentFormatterFactory)
         : IBaseHttpClient
