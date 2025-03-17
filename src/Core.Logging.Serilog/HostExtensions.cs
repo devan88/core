@@ -1,6 +1,7 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Hosting;
+using Serilog;
 
-namespace Microsoft.Extensions.Hosting
+namespace Core.Logging.Serilog
 {
     public static class HostExtensions
     {

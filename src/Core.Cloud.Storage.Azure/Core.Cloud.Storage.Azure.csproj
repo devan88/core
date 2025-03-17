@@ -11,4 +11,9 @@
     <ProjectReference Include="..\Core.Cloud.Storage\Core.Cloud.Storage.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="Azure.Storage.Blobs" />
+  </ItemGroup>
+
 </Project>

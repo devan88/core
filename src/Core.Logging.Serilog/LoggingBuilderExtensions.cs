@@ -1,8 +1,7 @@
-﻿using Core.Logging;
-using Core.Logging.Serilog;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Extensions.Logging
+namespace Core.Logging.Serilog
 {
     public static class LoggingBuilderExtensions
     {

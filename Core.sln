@@ -47,12 +47,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		nuget.config = nuget.config
 		Versioning.Build.props = Versioning.Build.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.HttpClient", "src\Core.HttpClient\Core.HttpClient.csproj", "{7BF318DA-E6AB-40BF-8E63-637435744341}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.HttpClient.Authorization", "src\Core.HttpClient.Authorization\Core.HttpClient.Authorization.csproj", "{8F1AE34B-2670-4C88-92F3-30EF1E9FE1C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain.Core", "src\Core.Domain.Core\Core.Domain.Core.csproj", "{2713E969-22EF-48F0-AB96-2BA029B5DC3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Hosting.AspNetCore.Cors", "src\Core.Hosting.AspNetCore.Cors\Core.Hosting.AspNetCore.Cors.csproj", "{09CD9AC9-9A70-4965-8FB8-BA37611C089E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,6 +146,14 @@ Global
 		{8F1AE34B-2670-4C88-92F3-30EF1E9FE1C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F1AE34B-2670-4C88-92F3-30EF1E9FE1C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F1AE34B-2670-4C88-92F3-30EF1E9FE1C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2713E969-22EF-48F0-AB96-2BA029B5DC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2713E969-22EF-48F0-AB96-2BA029B5DC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2713E969-22EF-48F0-AB96-2BA029B5DC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2713E969-22EF-48F0-AB96-2BA029B5DC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09CD9AC9-9A70-4965-8FB8-BA37611C089E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09CD9AC9-9A70-4965-8FB8-BA37611C089E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09CD9AC9-9A70-4965-8FB8-BA37611C089E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09CD9AC9-9A70-4965-8FB8-BA37611C089E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +179,8 @@ Global
 		{53BEE4BD-AC63-4E8E-A6B2-CECA53D67945} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
 		{7BF318DA-E6AB-40BF-8E63-637435744341} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
 		{8F1AE34B-2670-4C88-92F3-30EF1E9FE1C6} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
+		{2713E969-22EF-48F0-AB96-2BA029B5DC3A} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
+		{09CD9AC9-9A70-4965-8FB8-BA37611C089E} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C6F6174-0B83-4690-B2DB-6D6E465B4D99}

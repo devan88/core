@@ -1,6 +1,7 @@
 using Core.HttpClient.Authorization.Extensions;
 using Core.HttpClient.Extensions;
-using Microsoft.AspNetCore.Authentication.Negotiate;
+using Core.Logging.AspNetCore.Serilog;
+using Core.Logging.Serilog;
 using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Core.Hosting.AspNetCore.WebApi.Tests
@@ -24,11 +25,11 @@ namespace Core.Hosting.AspNetCore.WebApi.Tests
                 },
                 ConfigureServices = (services) =>
                 {
-                    services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
+                    //services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
                     services.AddOAuthTokenProviderFactory();
                     services
                     .AddStandardBaseHttpClient<HttpService>(builder.Configuration, "HttpClients:0")
-                    .WithWindowsAuthHandler(builder.Configuration, "HttpClients:0:Authorization");
+                    .WithBearerTokenAuthHandler(builder.Configuration, "HttpClients:0:Authorization");
                     services
                     .AddStandardBaseHttpClient<OtherService>(builder.Configuration, "HttpClients:1")
                     .WithWindowsAuthHandler(builder.Configuration, "HttpClients:1:Authorization");

@@ -5,7 +5,7 @@ namespace Core.Hosting.AspNetCore.WebApi.Tests
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    [Authorize]
+    //[Authorize]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

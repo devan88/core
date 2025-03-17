@@ -1,8 +1,8 @@
-﻿using Core.Hosting.AspNetCore.Swagger;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Core.Hosting.AspNetCore.Swagger
 {
     public static class ServiceCollectionExtensions
     {
@@ -13,16 +13,16 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             try
             {
-                logger.LogInformation("TryAddSwaggerGen {@options}", swaggerOptions);
+                logger.LogInformation("TryAddSwaggerGen {@Options}", swaggerOptions);
                 services.AddSwaggerGen(c =>
                 {
-                    var apiOptions = swaggerOptions.SwaggerDoc.OpenApiOptions;
+                    OpenApiOptions apiOptions = swaggerOptions.SwaggerDoc.OpenApiOptions;
                     c.SwaggerDoc(swaggerOptions.SwaggerDoc.Name, new OpenApiInfo { Title = apiOptions.Title, Version = apiOptions.Version });
                 });
             }
             catch (Exception ex)
             {
-                logger.LogError("Error adding SwaggerGen: {@ex}", ex);
+                logger.LogError(ex, "Error adding SwaggerGen: {@Exception}", ex);
             }
             return services;
         }

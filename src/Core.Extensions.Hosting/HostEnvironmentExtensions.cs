@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Extensions.Hosting
+﻿using Microsoft.Extensions.Hosting;
+
+namespace Microsoft.Extensions.Hosting
 {
     public static class HostEnvironmentExtensions
     {

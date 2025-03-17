@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Core" />
+    <PackageReference Include="Microsoft.Extensions.Azure" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Core.Extensions.Hosting\Core.Extensions.Hosting.csproj" />
   </ItemGroup>
 

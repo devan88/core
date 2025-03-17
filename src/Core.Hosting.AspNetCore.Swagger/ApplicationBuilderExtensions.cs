@@ -1,6 +1,7 @@
 ﻿using Core.Hosting.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Builder;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Core.Hosting.AspNetCore.Swagger
 {
     public static class ApplicationBuilderExtensions
     {

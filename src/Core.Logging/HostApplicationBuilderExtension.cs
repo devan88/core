@@ -1,8 +1,8 @@
-﻿using Core.Logging;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Extensions.Hosting
+namespace Core.Logging
 {
     public static class HostApplicationBuilderExtension
     {
@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.Hosting
             var logger = provider
                 .GetRequiredService<IDiagnosticsLogger>()
                 .CreateLogger(type);
-            logger.LogInformation("Adding Diagnostics Logger {@logger}", logger.GetType());
+            logger.LogInformation("Adding Diagnostics Logger {@Logger}", logger.GetType());
             if (hostBuilder.Properties.ContainsKey(DiagnosticsLogger))
             {
                 hostBuilder.Properties[DiagnosticsLogger] = logger;

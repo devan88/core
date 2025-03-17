@@ -5,11 +5,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <!--<ItemGroup>
-    --><!--<FrameworkReference Include="Microsoft.AspNetCore.App" />--><!--
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-  </ItemGroup>-->
-
   <ItemGroup>
     <ProjectReference Include="..\Core.Extensions.Configuration\Core.Extensions.Configuration.csproj" />
     <ProjectReference Include="..\Core.Extensions.Hosting\Core.Extensions.Hosting.csproj" />

@@ -1,8 +1,8 @@
 ﻿using Azure.Core;
-using Core.Extensions.Azure;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.Extensions.Azure
+namespace Core.Extensions.Azure
 {
     public static class AzureClientFactoryBuilderExtensions
     {
