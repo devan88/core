@@ -96,14 +96,6 @@ namespace Core.Logging.Serilog
 
             return loggerConfiguration
                 .WriteTo.Elasticsearch(elasticsearchSinkOptions);
-                //.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticUri))
-                //{
-                //    AutoRegisterTemplate = true,
-                //    IndexFormat = "logs-{0:yyyy.MM.dd}",
-                //    ModifyConnectionSettings = x => x
-                //    .BasicAuthentication("elastic", "changeme") // Set up basic authentication
-                //    .ServerCertificateValidationCallback((sender, certificate, chain, sslPolicyErrors) => true) // Bypass SSL validation
-                //});
         }
     }
 }
