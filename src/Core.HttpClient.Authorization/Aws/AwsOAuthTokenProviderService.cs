@@ -56,7 +56,7 @@ namespace Core.HttpClient.Authorization.Aws
             _logger.LogInformation("Received access token for clientId=<{ClientId}>", _awsAuthConfiguration.ClientId);
 
             // Deserialize and return the token response.
-            AwsCognitoTokenResponse? tokenResponse = JsonSerializer.Deserialize<AwsCognitoTokenResponse>(json);
+            OAuthTokenResponse? tokenResponse = JsonSerializer.Deserialize<OAuthTokenResponse>(json);
 
             return tokenResponse?.AccessToken ?? string.Empty;
         }

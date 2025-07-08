@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,9 @@ namespace Core.Hosting.AspNetCore.WebApi.Tests
         public IEnumerable<WeatherForecast> Get()
         {
             _logger.LogInformation("GetWeatherForecast");
+            Activity? activity = Activity.Current;
+            _logger.LogInformation("Processing request with TraceId: {TraceId}, SpanId: {SpanId}",
+                activity?.TraceId, activity?.SpanId);
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

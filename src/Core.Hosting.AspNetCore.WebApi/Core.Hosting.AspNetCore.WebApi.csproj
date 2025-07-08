@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Core.Cloud.Storage.Azure\Core.Cloud.Storage.Azure.csproj" />
     <ProjectReference Include="..\Core.Hosting.AspNetCore.Swagger\Core.Hosting.AspNetCore.Swagger.csproj" />
     <ProjectReference Include="..\Core.Hosting\Core.Hosting.csproj" />
+    <ProjectReference Include="..\Core.Logging.AspNetCore\Core.Logging.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>

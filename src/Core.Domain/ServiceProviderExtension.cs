@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Domain.Core.Extensions
+namespace Core.Domain
 {
     /// <summary>
     /// Provides extension methods for the IServiceProvider to retrieve domain event handlers.

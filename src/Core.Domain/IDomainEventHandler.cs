@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Core
+﻿namespace Core.Domain
 {
     /// <summary>
     /// Contract for handling domain events.

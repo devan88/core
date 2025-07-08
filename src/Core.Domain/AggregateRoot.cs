@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Domain.Core
+﻿namespace Core.Domain
 {
     /// <summary>
     /// Represents the base class for aggregate roots in the domain with a generic identifier.

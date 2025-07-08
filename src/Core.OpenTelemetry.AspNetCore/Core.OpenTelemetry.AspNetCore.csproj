@@ -6,12 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-   <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core.Logging.Serilog\Core.Logging.Serilog.csproj" />
-    <ProjectReference Include="..\Core.Logging\Core.Logging.csproj" />
+    <ProjectReference Include="..\Core.OpenTelemetry\Core.OpenTelemetry.csproj" />
   </ItemGroup>
 
 </Project>

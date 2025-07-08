@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Domain.Core.Extensions
+namespace Core.Domain
 {
     /// <summary>
     /// Provides extension methods for registering domain event components with the DI container.

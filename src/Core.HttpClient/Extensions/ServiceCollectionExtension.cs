@@ -13,24 +13,49 @@ namespace Core.HttpClient.Extensions
     public static class ServiceCollectionExtension
     {
         /// <summary>
-        /// Adds a Http client to the service collection with the name from <see cref="HttpClientConfiguration.Name"/>.
+        /// Adds a Http client to the service collection with the name from <see cref="HttpClientOptions.Name"/>.
         /// </summary>
         /// <typeparam name="TClient">The type of the client.</typeparam>
         /// <param name="services">The service collection.</param>
-        /// <param name="configuration">The configuration.</param>
+        /// <param name="configureHttpClientOptions">configuration for http client options.</param>
         /// <param name="baseHttpClientFactory">
         /// Optional factory to create <see cref="IBaseHttpClient"/>.
         /// Defaulted to <see cref="BaseHttpClient"/>.
         /// </param>
-        /// <param name="configurationPath">Optional http configuration path.</param>
         /// <param name="configureHttpStandardResilienceOptions">Optional configuration for the Http standard resilience options.</param>
         /// <param name="configureRoutingStrategyBuilder">Optional configuration for the routing strategy builder.</param>
         /// <returns>The Http client builder.</returns>
-        /// <exception cref="ArgumentNullException">Throws when htpp client configuration cannot be found.</exception>
+        public static IHttpClientBuilder AddStandardBaseHttpClient<TClient>(
+            this IServiceCollection services,
+            Action<HttpClientOptions> configureHttpClientOptions,
+            Func<IServiceProvider, IBaseHttpClient>? baseHttpClientFactory = null,
+            Action<HttpStandardResilienceOptions>? configureHttpStandardResilienceOptions = null,
+            Action<IRoutingStrategyBuilder>? configureRoutingStrategyBuilder = null)
+            where TClient : class
+        {
+            return services.AddStandardBaseHttpClient<TClient, TClient>(
+                configureHttpClientOptions,
+                baseHttpClientFactory,
+                configureHttpStandardResilienceOptions,
+                configureRoutingStrategyBuilder);
+        }
+
+        /// <summary>
+        /// Adds a Http client to the service collection with the name from <see cref="HttpClientOptions.Name"/>.
+        /// </summary>
+        /// <typeparam name="TClient">The type of the client.</typeparam>
+        /// <param name="services">The service collection.</param>
+        /// <param name="configuration"><see cref="IConfiguration"/> section for http client options.</param>
+        /// <param name="baseHttpClientFactory">
+        /// Optional factory to create <see cref="IBaseHttpClient"/>.
+        /// Defaulted to <see cref="BaseHttpClient"/>.
+        /// </param>
+        /// <param name="configureHttpStandardResilienceOptions">Optional configuration for the Http standard resilience options.</param>
+        /// <param name="configureRoutingStrategyBuilder">Optional configuration for the routing strategy builder.</param>
+        /// <returns>The Http client builder.</returns>
         public static IHttpClientBuilder AddStandardBaseHttpClient<TClient>(
             this IServiceCollection services,
             IConfiguration configuration,
-            string? configurationPath = null,
             Func<IServiceProvider, IBaseHttpClient>? baseHttpClientFactory = null,
             Action<HttpStandardResilienceOptions>? configureHttpStandardResilienceOptions = null,
             Action<IRoutingStrategyBuilder>? configureRoutingStrategyBuilder = null)
@@ -38,47 +63,107 @@ namespace Core.HttpClient.Extensions
         {
             return services.AddStandardBaseHttpClient<TClient, TClient>(
                 configuration,
-                configurationPath,
                 baseHttpClientFactory,
                 configureHttpStandardResilienceOptions,
                 configureRoutingStrategyBuilder);
         }
 
         /// <summary>
-        /// Adds a Http client to the service collection with the name from <see cref="HttpClientConfiguration.Name"/>.
+        /// Adds a Http client to the service collection with the name from <see cref="HttpClientOptions.Name"/>.
         /// </summary>
         /// <typeparam name="TClientService">The type of the client.</typeparam>
         /// <typeparam name="TClientImplementation">The implementation type of the client.</typeparam>
         /// <param name="services">The service collection.</param>
-        /// <param name="configuration">The configuration.</param>
         /// <param name="baseHttpClientFactory">
         /// Optional factory to create <see cref="IBaseHttpClient"/>.
         /// Defaulted to <see cref="BaseHttpClient"/>.
         /// </param>
-        /// <param name="configurationPath">Optional http configuration path.</param>
+        /// <param name="configureHttpClientOptions">configuration for http client options.</param>
         /// <param name="configureHttpStandardResilienceOptions">Optional configuration for the Http standard resilience options.</param>
         /// <param name="configureRoutingStrategyBuilder">Optional configuration for the routing strategy builder.</param>
         /// <returns>The Http client builder.</returns>
-        /// <exception cref="ArgumentNullException">Throws when htpp client configuration cannot be found.</exception>
         public static IHttpClientBuilder AddStandardBaseHttpClient<TClientService, TClientImplementation>(
             this IServiceCollection services,
-            IConfiguration configuration,
-            string? configurationPath = null,
+            Action<HttpClientOptions> configureHttpClientOptions,
             Func<IServiceProvider, IBaseHttpClient>? baseHttpClientFactory = null,
             Action<HttpStandardResilienceOptions>? configureHttpStandardResilienceOptions = null,
             Action<IRoutingStrategyBuilder>? configureRoutingStrategyBuilder = null)
             where TClientService : class
             where TClientImplementation : class, TClientService
         {
-            IConfiguration httpClientConfigurationSection = configuration.GetHttpClient(configurationPath);
+            HttpClientOptions httpClientOptions = configureHttpClientOptions.Invoke();
 
-            HttpClientConfiguration httpClientConfiguration = httpClientConfigurationSection.Get<HttpClientConfiguration>()
+            return services.AddStandardBaseHttpClient<TClientService, TClientImplementation>(
+                httpClientOptions,
+                baseHttpClientFactory,
+                configureHttpStandardResilienceOptions,
+                configureRoutingStrategyBuilder);
+        }
+
+
+        /// <summary>
+        /// Adds a Http client to the service collection with the name from <see cref="HttpClientOptions.Name"/>.
+        /// </summary>
+        /// <typeparam name="TClientService">The type of the client.</typeparam>
+        /// <typeparam name="TClientImplementation">The implementation type of the client.</typeparam>
+        /// <param name="services">The service collection.</param>
+        /// <param name="baseHttpClientFactory">
+        /// Optional factory to create <see cref="IBaseHttpClient"/>.
+        /// Defaulted to <see cref="BaseHttpClient"/>.
+        /// </param>
+        /// <param name="configuration"><see cref="IConfiguration"/> section for http client options.</param>
+        /// <param name="configureHttpStandardResilienceOptions">Optional configuration for the Http standard resilience options.</param>
+        /// <param name="configureRoutingStrategyBuilder">Optional configuration for the routing strategy builder.</param>
+        /// <returns>The Http client builder.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IHttpClientBuilder AddStandardBaseHttpClient<TClientService, TClientImplementation>(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            Func<IServiceProvider, IBaseHttpClient>? baseHttpClientFactory = null,
+            Action<HttpStandardResilienceOptions>? configureHttpStandardResilienceOptions = null,
+            Action<IRoutingStrategyBuilder>? configureRoutingStrategyBuilder = null)
+            where TClientService : class
+            where TClientImplementation : class, TClientService
+        {
+
+            HttpClientOptions httpClientOptions = configuration.Get<HttpClientOptions>()
                 ?? throw new ArgumentNullException(nameof(configuration), "HttpClient configuration cannot be found");
 
+            return services.AddStandardBaseHttpClient<TClientService, TClientImplementation>(
+                httpClientOptions,
+                baseHttpClientFactory,
+                configureHttpStandardResilienceOptions,
+                configureRoutingStrategyBuilder);
+        }
+
+        /// <summary>
+        /// Adds a Http client to the service collection with the name from <see cref="HttpClientOptions.Name"/>.
+        /// </summary>
+        /// <typeparam name="TClientService">The type of the client.</typeparam>
+        /// <typeparam name="TClientImplementation">The implementation type of the client.</typeparam>
+        /// <param name="services">The service collection.</param>
+        /// <param name="baseHttpClientFactory">
+        /// Optional factory to create <see cref="IBaseHttpClient"/>.
+        /// Defaulted to <see cref="BaseHttpClient"/>.
+        /// </param>
+        /// <param name="httpClientOptions"><see cref="HttpClientOptions"/> for http client options.</param>
+        /// <param name="configureHttpStandardResilienceOptions">Optional configuration for the Http standard resilience options.</param>
+        /// <param name="configureRoutingStrategyBuilder">Optional configuration for the routing strategy builder.</param>
+        /// <returns>The Http client builder.</returns>
+        public static IHttpClientBuilder AddStandardBaseHttpClient<TClientService, TClientImplementation>(
+            this IServiceCollection services,
+            HttpClientOptions httpClientOptions,
+            Func<IServiceProvider, IBaseHttpClient>? baseHttpClientFactory = null,
+            Action<HttpStandardResilienceOptions>? configureHttpStandardResilienceOptions = null,
+            Action<IRoutingStrategyBuilder>? configureRoutingStrategyBuilder = null)
+            where TClientService : class
+            where TClientImplementation : class, TClientService
+        {
+
             return services
-                .AddClientWithBaseHttpClient<TClientService, TClientImplementation>(httpClientConfiguration.Name, baseHttpClientFactory)
+                .AddClientWithBaseHttpClient<TClientService, TClientImplementation>(httpClientOptions.Name, baseHttpClientFactory)
                 .AddHttpClientFormatter()
-                .AddStandardHttpClient(httpClientConfiguration)
+                .AddStandardHttpClient(httpClientOptions)
                 .WithStandardResilienceHandler(configureHttpStandardResilienceOptions)
                 .WithStandardHedgingHandler(configureRoutingStrategyBuilder);
         }
@@ -98,7 +183,7 @@ namespace Core.HttpClient.Extensions
         }
 
         /// <summary>
-        /// Registers an HttpClient with the name from <see cref="HttpClientConfiguration.Name"/>.
+        /// Registers an HttpClient with the name from <see cref="HttpClientOptions.Name"/>.
         /// </summary>
         /// <param name="services">The service collection to register the HttpClient with.</param>
         /// <param name="httpClientConfiguration">An object containing configuration settings for the HttpClient.</param>
@@ -107,7 +192,7 @@ namespace Core.HttpClient.Extensions
         /// </returns>
         public static IHttpClientBuilder AddStandardHttpClient(
             this IServiceCollection services,
-            HttpClientConfiguration httpClientConfiguration)
+            HttpClientOptions httpClientConfiguration)
         {
             return services.AddHttpClient(httpClientConfiguration.Name, client =>
             {

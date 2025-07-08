@@ -61,16 +61,12 @@ namespace Core.HttpClient.Authorization.Extensions
         /// </summary>
         /// <param name="builder">The IHttpClientBuilder to which the bearer token auth handler will be added.</param>
         /// <param name="configuration">The IConfiguration instance used to retrieve authorization settings.</param>
-        /// <param name="configurationPath">Optional http authorization configuration path.</param>
         /// <returns>The updated IHttpClientBuilder with the bearer token auth handler added.</returns>
         public static IHttpClientBuilder WithBearerTokenAuthHandler(
             this IHttpClientBuilder builder,
-            IConfiguration configuration,
-            string? configurationPath = null)
+            IConfiguration configuration)
         {
-            IConfiguration configurationSection = configuration.GetHttpClientAuthorization(configurationPath);
-
-            BearerTokenAuthConfiguration? authorizationSection = configurationSection.Get<BearerTokenAuthConfiguration>();
+            BearerTokenAuthConfiguration? authorizationSection = configuration.Get<BearerTokenAuthConfiguration>();
 
             if (authorizationSection is not null && authorizationSection.CloudProvider is not CloudProvider.None)
             {
@@ -78,7 +74,7 @@ namespace Core.HttpClient.Authorization.Extensions
                 {
                     CloudProvider cloudProvider = authorizationSection!.CloudProvider;
                     IOAuthTokenProviderFactory factory = sp.GetRequiredService<IOAuthTokenProviderFactory>();
-                    IOAuthTokenProviderService provider = factory.CreateOAuthTokenProviderService(configurationSection, cloudProvider);
+                    IOAuthTokenProviderService provider = factory.CreateOAuthTokenProviderService(configuration, cloudProvider);
                     return new BearerTokenAuthHandler(provider);
                 });
             }
@@ -91,16 +87,12 @@ namespace Core.HttpClient.Authorization.Extensions
         /// </summary>
         /// <param name="builder">The IHttpClientBuilder to which the Basic authentication handler will be added.</param>
         /// <param name="configuration">The IConfiguration instance used to retrieve authorization settings.</param>
-        /// <param name="configurationPath">Optional http authorization configuration path.</param>
         /// <returns>The updated IHttpClientBuilder with the Basic authentication handler added.</returns>
         public static IHttpClientBuilder WithBasicAuthHandler(
             this IHttpClientBuilder builder,
-            IConfiguration configuration,
-            string? configurationPath = null)
+            IConfiguration configuration)
         {
-            BasicAuthConfiguration? basicAuthConfig = configuration
-                .GetHttpClientAuthorization(configurationPath)
-                .Get<BasicAuthConfiguration>();
+            BasicAuthConfiguration? basicAuthConfig = configuration.Get<BasicAuthConfiguration>();
 
             if (basicAuthConfig is not null
                 && string.IsNullOrEmpty(basicAuthConfig.Username)
@@ -120,16 +112,12 @@ namespace Core.HttpClient.Authorization.Extensions
         /// </summary>
         /// <param name="builder">The IHttpClientBuilder to which the Api Key authentication handler will be added.</param>
         /// <param name="configuration">The IConfiguration instance used to retrieve authorization settings.</param>
-        /// <param name="configurationPath">Optional http authorization configuration path.</param>
         /// <returns>The updated IHttpClientBuilder with the Api Key authentication handler added.</returns>
         public static IHttpClientBuilder WithApiKeyAuthHandler(
             this IHttpClientBuilder builder,
-            IConfiguration configuration,
-            string? configurationPath = null)
+            IConfiguration configuration)
         {
-            ApiKeyAuthConfiguration? apiKeyAuthConfig = configuration
-                .GetHttpClientAuthorization(configurationPath)
-                .Get<ApiKeyAuthConfiguration>();
+            ApiKeyAuthConfiguration? apiKeyAuthConfig = configuration.Get<ApiKeyAuthConfiguration>();
 
             if (apiKeyAuthConfig is not null
                 && string.IsNullOrEmpty(apiKeyAuthConfig.HeaderName)
@@ -149,15 +137,12 @@ namespace Core.HttpClient.Authorization.Extensions
         /// </summary>
         /// <param name="builder">The IHttpClientBuilder to which the Api Key authentication handler will be added.</param>
         /// <param name="configuration">The IConfiguration instance used to retrieve authorization settings.</param>
-        /// <param name="configurationPath">Optional http authorization configuration path.</param>
         /// <returns>The updated IHttpClientBuilder with the Api Key authentication handler added.</returns>
         public static IHttpClientBuilder WithClientCertificateAuthHandler(
             this IHttpClientBuilder builder,
-            IConfiguration configuration,
-            string? configurationPath = null)
+            IConfiguration configuration)
         {
             ClientCertificateAuthConfiguration? clientCertificateAuthConfig = configuration
-                .GetHttpClientAuthorization(configurationPath)
                 .Get<ClientCertificateAuthConfiguration>();
 
             if (clientCertificateAuthConfig is not null
@@ -177,15 +162,12 @@ namespace Core.HttpClient.Authorization.Extensions
         /// </summary>
         /// <param name="builder">The IHttpClientBuilder to which the windows authentication handler will be added.</param>
         /// <param name="configuration">The IConfiguration instance used to retrieve authorization settings.</param>
-        /// <param name="configurationPath">Optional http authorization configuration path.</param>
         /// <returns>The updated IHttpClientBuilder with the windows authentication handler added.</returns>
         public static IHttpClientBuilder WithWindowsAuthHandler(
             this IHttpClientBuilder builder,
-            IConfiguration configuration,
-            string? configurationPath = null)
+            IConfiguration configuration)
         {
             WindowsAuthConfiguration windowsAuthConfig = configuration
-                .GetHttpClientAuthorization(configurationPath)
                 .Get<WindowsAuthConfiguration>() ?? new WindowsAuthConfiguration();
 
             builder.ConfigurePrimaryHttpMessageHandler(sp =>

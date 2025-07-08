@@ -1,5 +1,5 @@
-﻿using Core.Hosting.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Hosting.AspNetCore.Swagger
 {
@@ -7,11 +7,12 @@ namespace Core.Hosting.AspNetCore.Swagger
     {
         public static IApplicationBuilder UseSwagger(
             this IApplicationBuilder app,
-            SwaggerOptions swaggerOptions)
+            IServiceProvider serviceProvider)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                SwaggerOptions swaggerOptions = serviceProvider.GetRequiredService<SwaggerOptions>();
                 c.SwaggerEndpoint(swaggerOptions.SwaggerEndpoint.Url, swaggerOptions.SwaggerEndpoint.Name);
             });
             return app;

@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Core
+﻿namespace Core.Domain
 {
     /// <summary>
     /// Defines the contract for a domain event dispatcher.

@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Core
+﻿namespace Core.Domain
 {
     /// <summary>
     /// Represents the base class for all entities in the domain with a generic identifier.

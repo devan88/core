@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Core
+﻿namespace Core.Domain
 {
     /// <summary>
     /// Represents an abstract repository for managing aggregates in a domain-driven design context.

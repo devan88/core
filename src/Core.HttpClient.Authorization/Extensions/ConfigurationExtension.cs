@@ -10,13 +10,10 @@ namespace Core.HttpClient.Authorization.Extensions
         /// <summary>
         /// Retrieves the configuration section for the Http client authorization settings.
         /// </summary>
-        /// <param name="configuration">The IConfiguration instance to extend.</param>
-        /// <param name="sectionName">The name of the configuration section to retrieve. 
-        /// If null, defaults to the constant section name defined in <seealso cref="Constant.HttpClientAuthorizationSection"/>.</param>
+        /// <param name="configuration">Retrieves configuration from the constant section
+        /// name defined in <seealso cref="Constant.HttpClientAuthorizationSection"/>.</param>
         /// <returns>The configuration section corresponding to the specified section name.</returns>
-        public static IConfiguration GetHttpClientAuthorization(
-            this IConfiguration configuration,
-            string? sectionName = default)
-            => configuration.GetSection(sectionName ?? Constant.HttpClientAuthorizationSection);
+        public static IConfiguration GetHttpClientAuthorization(this IConfiguration configuration)
+            => configuration.GetSection(Constant.HttpClientAuthorizationSection);
     }
 }

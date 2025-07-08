@@ -52,7 +52,6 @@ namespace Core.Hosting
 
         protected void ConfigureDiagnosticLogging(Action<ILoggingBuilder>? configureDiagnostics)
         {
-            LoggingBuilder.AddDiagnostics();
             configureDiagnostics?.Invoke(LoggingBuilder);
             AppBuilder.AddDiagnosticsLogger<T>(LoggingBuilder);
         }

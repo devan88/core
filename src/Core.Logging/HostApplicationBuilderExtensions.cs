@@ -4,27 +4,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Core.Logging
 {
-    public static class HostApplicationBuilderExtension
+    public static class HostApplicationBuilderExtensions
     {
-        private static readonly string DiagnosticsLogger = "DiagnosticsLogger";
+        private const string DiagnosticsLogger = "DiagnosticsLogger";
 
         public static IHostApplicationBuilder AddDiagnosticsLogger<T>(
             this IHostApplicationBuilder hostBuilder,
             ILoggingBuilder loggingBuilder)
         {
-            return hostBuilder.AddDiagnosticsLogger(loggingBuilder, typeof(T));
-        }
+            ServiceProvider provider = loggingBuilder.Services.BuildServiceProvider();
 
-        public static IHostApplicationBuilder AddDiagnosticsLogger(
-            this IHostApplicationBuilder hostBuilder,
-            ILoggingBuilder loggingBuilder,
-            Type type)
-        {
-            var provider = loggingBuilder.Services.BuildServiceProvider();
-            var logger = provider
-                .GetRequiredService<IDiagnosticsLogger>()
-                .CreateLogger(type);
+            ILogger<T> logger = provider.GetRequiredService<ILogger<T>>();
+
             logger.LogInformation("Adding Diagnostics Logger {@Logger}", logger.GetType());
+
             if (hostBuilder.Properties.ContainsKey(DiagnosticsLogger))
             {
                 hostBuilder.Properties[DiagnosticsLogger] = logger;
@@ -33,12 +26,13 @@ namespace Core.Logging
             {
                 hostBuilder.Properties.Add(DiagnosticsLogger, logger);
             }
+
             return hostBuilder;
         }
 
         public static ILogger GetDiagnosticsLogger(this IHostApplicationBuilder hostBuilder)
         {
-            return hostBuilder.Properties[DiagnosticsLogger] as ILogger;
+            return (ILogger)hostBuilder.Properties[DiagnosticsLogger];
         }
     }
 }

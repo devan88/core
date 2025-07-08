@@ -1,6 +1,4 @@
-﻿using Core.Domain.Core.Extensions;
-
-namespace Core.Domain.Core
+﻿namespace Core.Domain
 {
     /// <summary>
     /// Default implementation of IDomainEventDispatcher

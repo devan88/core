@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Core
+﻿namespace Core.Domain
 {
     public interface IAggregateRepository<T, TId> where T : AggregateRoot<TId>
     {

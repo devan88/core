@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Core
+﻿namespace Core.Domain
 {
     /// <summary>
     /// Serves as the base class for all domain events.

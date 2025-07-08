@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Core.HttpClient.Authorization.Aws
+namespace Core.HttpClient.Authorization
 {
     /// <summary>
-    /// Represents a token response from AWS Cognito OAuth2 authentication.
+    /// Represents a token response from OAuth2 authentication.
     /// Contains various token properties received after a successful token request.
     /// </summary>
-    public sealed record AwsCognitoTokenResponse
+    public sealed record OAuthTokenResponse
     {
         /// <summary>
         /// Gets or sets the access token used to authorize subsequent API requests.

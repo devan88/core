@@ -1,6 +1,7 @@
 ﻿using Core.Cloud.KeyManagement.Azure;
 using Core.Extensions.Azure;
 using Core.Hosting.AspNetCore.Swagger;
+using Core.Logging.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -38,10 +39,11 @@ namespace Core.Hosting.AspNetCore.WebApi
             Configure(env);
             if (env.IsDevelopment() || env.IsLocalDevelopment())
             {
-                app.UseSwagger(_swaggerOptions);
+                app.UseSwagger(app.ApplicationServices);
             }
             app.UseHttpsRedirection();
             app.UseAuthorization();
+            app.UseCorrelationIdMiddleware();
             endpoints.MapControllers();
         }
         public override void Build()

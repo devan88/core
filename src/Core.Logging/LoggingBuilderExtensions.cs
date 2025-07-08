@@ -1,13 +1,22 @@
-﻿using Core.Logging;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Extensions.Logging
 {
     public static class LoggingBuilderExtensions
     {
-        public static ILoggingBuilder AddDiagnostics(this ILoggingBuilder builder)
+        public static ILoggingBuilder ConfigureLogging(this ILoggingBuilder builder, IConfiguration configuration)
         {
-            builder.Services.AddSingleton<IDiagnosticsLogger, DiagnosticsLogger>();
+            builder.Services.AddSingleton(sp =>
+            {
+                return LoggerFactory.Create(builder =>
+                {
+                    builder
+                    .AddConfiguration(configuration.GetSection("Logging"))
+                    .AddConsole();
+                });
+            });
+
             return builder;
         }
     }
