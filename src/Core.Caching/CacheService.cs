@@ -47,7 +47,7 @@ namespace Core.Caching
             {
                 _logger.LogWarning(ex, "Redis set failed for key=<{Key}>", cache.Key);
             }
-            
+
 
             _memoryCache.Set(cache.Key, bytes, cache.ExpiresIn);
         }

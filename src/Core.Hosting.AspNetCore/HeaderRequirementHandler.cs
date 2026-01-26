@@ -24,7 +24,7 @@ namespace Core.Hosting.AspNetCore
             }
 
             var headers = httpContext.Request.Headers;
-            if(headers.TryGetValue(requirement.HeaderName.ToLower(), out var actualValue)
+            if (headers.TryGetValue(requirement.HeaderName.ToLower(), out var actualValue)
                 && actualValue.ToString() == requirement.ExpectedValue)
             {
                 context.Succeed(requirement);

@@ -24,7 +24,7 @@ namespace Core.HttpClient.Formatters
 
             return await Task.Run(() => (T?)xmlSerializer
             .Deserialize(contentStream), cancellationToken)
-                .ConfigureAwait(false); 
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>

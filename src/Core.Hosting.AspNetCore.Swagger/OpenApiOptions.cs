@@ -1,5 +1,5 @@
 ﻿namespace Core.Hosting.AspNetCore.Swagger
-{ 
+{
     /// <summary>
     /// Represents options for configuring OpenAPI documentation for an API.
     /// </summary>
