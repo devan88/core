@@ -27,7 +27,10 @@ namespace Core.Logging.Serilog
         public static SerilogLoggerBuilder CreateBuilder(IConfiguration configuration)
         {
             LoggerConfiguration loggerConfiguration = new LoggerConfiguration()
-                .WithDefaultConfiguration()
+                .WithMinimumLevel()
+                .WithEnrichers()
+                .WithConsole()
+                .WithFile()
                 .ReadFrom.Configuration(configuration);
 
             SerilogLoggerBuilder builder = new()
