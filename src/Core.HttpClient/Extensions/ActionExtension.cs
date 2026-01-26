@@ -3,6 +3,9 @@ using System.Reflection;
 
 namespace Core.HttpClient.Extensions
 {
+    /// <summary>
+    /// Provides extension methods for actions.
+    /// </summary>
     public static class ActionExtension
     {
         /// <summary>

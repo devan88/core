@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using System.Collections.Immutable;
 using System.Xml.Serialization;
 
 namespace Core.HttpClient.Formatters
@@ -9,42 +9,46 @@ namespace Core.HttpClient.Formatters
     public sealed class XmlHttpContentFormatter : IHttpContentFormatter
     {
         /// <inheritdoc/>
+        public ImmutableHashSet<string> MediaTypes => MediaType.Xml;
+
+        /// <inheritdoc/>
         public async Task<T?> DeserializeAsync<T>(HttpContent data, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(data);
 
-            // Read the content string.
-            string xmlContent = await data.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+            await using Stream contentStream = await data
+                .ReadAsStreamAsync(cancellationToken)
+                .ConfigureAwait(false);
 
-            if (string.IsNullOrWhiteSpace(xmlContent))
-            {
-                return default;
-            }
+            XmlSerializer xmlSerializer = new(typeof(T));
 
-            // Deserialize the XML to the target object.
-            var xmlSerializer = new XmlSerializer(typeof(T));
-            using (var reader = new StringReader(xmlContent))
-            {
-                return (T?)xmlSerializer.Deserialize(reader);
-            }
+            return await Task.Run(() => (T?)xmlSerializer
+            .Deserialize(contentStream), cancellationToken)
+                .ConfigureAwait(false); 
         }
 
         /// <inheritdoc/>
-        public HttpContent GetContent<T>(T data)
+        public Task<HttpContent> SerializeAsync<T>(T data, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(data);
 
-            // Serialize the object to XML.
-            XmlSerializer xmlSerializer = new(typeof(T));
-            string xmlResult;
-            using (var stringWriter = new StringWriter())
+            PushStreamContent pushStreamContent = new(async (stream, _, _) =>
             {
-                xmlSerializer.Serialize(stringWriter, data);
-                xmlResult = stringWriter.ToString();
-            }
+                XmlSerializer xmlSerializer = new(typeof(T));
 
-            // Create an HttpContent instance with the proper media type.
-            return new StringContent(xmlResult, Encoding.UTF8, "application/xml");
+                await Task.Run(() => xmlSerializer
+                .Serialize(stream, data), cancellationToken)
+                .ConfigureAwait(false);
+
+                await stream
+                .FlushAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+                stream.Close();
+
+            }, MediaTypes.First());
+
+            return Task.FromResult<HttpContent>(pushStreamContent);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Core.Logging.AspNetCore
         /// </summary>
         /// <param name="services">The IServiceCollection to add services to.</param>
         /// <returns>The IServiceCollection with correlation ID services added.</returns>
-        public static IServiceCollection AddCorrelationId(this IServiceCollection services)
+        public static IServiceCollection AddHttpCorrelationId(this IServiceCollection services)
         {
             return services
                 .AddHttpContextAccessor()

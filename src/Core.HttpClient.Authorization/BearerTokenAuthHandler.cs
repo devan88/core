@@ -4,12 +4,12 @@ namespace Core.HttpClient.Authorization
 {
     internal sealed class BearerTokenAuthHandler : DelegatingHandler
     {
-        public readonly IOAuthTokenProviderService _oAuthTokenProviderService;
+        public readonly IOAuthTokenProvider _oAuthTokenProvider;
 
-        public BearerTokenAuthHandler(IOAuthTokenProviderService oAuthTokenProviderService)
+        public BearerTokenAuthHandler(IOAuthTokenProvider oAuthTokenProvider)
         {
-            _oAuthTokenProviderService = oAuthTokenProviderService
-                ?? throw new ArgumentNullException(nameof(oAuthTokenProviderService));
+            _oAuthTokenProvider = oAuthTokenProvider
+                ?? throw new ArgumentNullException(nameof(oAuthTokenProvider));
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(
@@ -25,9 +25,9 @@ namespace Core.HttpClient.Authorization
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            string accessToken = await _oAuthTokenProviderService
+            string accessToken = (await _oAuthTokenProvider
                 .GetAccessTokenAsync(cancellationToken)
-                .ConfigureAwait(false);
+                .ConfigureAwait(false)).AccessToken!;
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         }

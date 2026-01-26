@@ -15,7 +15,7 @@ namespace Core.HttpClient.Authorization.Extensions
         /// <param name="builder">The IHttpClientBuilder to which the bearer token auth handler will be added.</param>
         /// <returns></returns>
         public static IHttpClientBuilder WithBearerTokenAuthHandler(this IHttpClientBuilder builder)
-            => builder.WithBearerTokenAuthHandler<IOAuthTokenProviderService>();
+            => builder.WithBearerTokenAuthHandler<IOAuthTokenProvider>();
 
         /// <summary>
         /// Extension method to add a bearer token auth handler to an IHttpClientBuilder.
@@ -24,7 +24,7 @@ namespace Core.HttpClient.Authorization.Extensions
         /// <param name="builder">The IHttpClientBuilder to which the bearer token auth handler will be added.</param>
         /// <returns>The updated IHttpClientBuilder with the bearer token auth handler added.</returns>
         public static IHttpClientBuilder WithBearerTokenAuthHandler<TService>(this IHttpClientBuilder builder)
-            where TService : IOAuthTokenProviderService
+            where TService : IOAuthTokenProvider
         {
             builder.AddHttpMessageHandler(sp =>
             {
@@ -40,16 +40,16 @@ namespace Core.HttpClient.Authorization.Extensions
         /// </summary>
         /// <param name="builder">The IHttpClientBuilder to which the bearer token auth handler will be added.</param>
         /// <param name="providerFunc">
-        /// Func to return <see cref="IOAuthTokenProviderService"/> to be used in <see cref="BearerTokenAuthHandler"/>.
+        /// Func to return <see cref="IOAuthTokenProvider"/> to be used in <see cref="BearerTokenAuthHandler"/>.
         /// </param>
         /// <returns>The updated IHttpClientBuilder with the bearer token auth handler added.</returns>
         public static IHttpClientBuilder WithBearerTokenAuthHandler(
             this IHttpClientBuilder builder,
-            Func<IServiceProvider, IOAuthTokenProviderService> providerFunc)
+            Func<IServiceProvider, IOAuthTokenProvider> providerFunc)
         {
             builder.AddHttpMessageHandler(sp =>
             {
-                IOAuthTokenProviderService provider = providerFunc.Invoke(sp);
+                IOAuthTokenProvider provider = providerFunc.Invoke(sp);
                 return new BearerTokenAuthHandler(provider);
             });
 
@@ -66,18 +66,29 @@ namespace Core.HttpClient.Authorization.Extensions
             this IHttpClientBuilder builder,
             IConfiguration configuration)
         {
-            BearerTokenAuthConfiguration? authorizationSection = configuration.Get<BearerTokenAuthConfiguration>();
+            OAuthConfiguration oAuthTokenConfiguration = configuration.Get<OAuthConfiguration>()
+                ?? throw new ArgumentNullException(nameof(configuration));
 
-            if (authorizationSection is not null && authorizationSection.CloudProvider is not CloudProvider.None)
+            builder.WithBearerTokenAuthHandler(oAuthTokenConfiguration.ClientId);
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Extension method to add a bearer token auth handler to an IHttpClientBuilder.
+        /// </summary>
+        /// <param name="builder">The IHttpClientBuilder to which the bearer token auth handler will be added.</param>
+        /// <param name="key">The key used to retrieve the OAuth token provider registered with it.</param>
+        /// <returns>The updated IHttpClientBuilder with the bearer token auth handler added.</returns>
+        public static IHttpClientBuilder WithBearerTokenAuthHandler(
+            this IHttpClientBuilder builder,
+            string key)
+        {
+            builder.AddHttpMessageHandler(sp =>
             {
-                builder.AddHttpMessageHandler(sp =>
-                {
-                    CloudProvider cloudProvider = authorizationSection!.CloudProvider;
-                    IOAuthTokenProviderFactory factory = sp.GetRequiredService<IOAuthTokenProviderFactory>();
-                    IOAuthTokenProviderService provider = factory.CreateOAuthTokenProviderService(configuration, cloudProvider);
-                    return new BearerTokenAuthHandler(provider);
-                });
-            }
+                IOAuthTokenProvider provider = sp.GetRequiredKeyedService<IOAuthTokenProvider>(key);
+                return new BearerTokenAuthHandler(provider);
+            });
 
             return builder;
         }

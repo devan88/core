@@ -12,7 +12,8 @@ namespace Core.Hosting.AspNetCore.WebApi.Tests
 
         public async Task<T?> GetWeatherDataAsync<T>(CancellationToken cancellationToken)
         {
-            return await _httpClient.GetAsync<T>("api/WeatherForecast/Get", cancellationToken);
+            HttpResult<T?> httpResult = await _httpClient.GetAsync<T>("api/v1/WeatherForecast/Get", cancellationToken);
+            return httpResult.Data;
         }
     }
 }

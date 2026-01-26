@@ -12,14 +12,14 @@ namespace Core.HttpClient.Authorization
         /// Gets or sets the access token used to authorize subsequent API requests.
         /// </summary>
         [JsonPropertyName("access_token")]
-        public string? AccessToken { get; init; }
+        public required string AccessToken { get; init; }
 
         /// <summary>
         /// Gets or sets the type of the token issued.
         /// Typically, this is "Bearer" to indicate a bearer token.
         /// </summary>
         [JsonPropertyName("token_type")]
-        public string? TokenType { get; init; }
+        public required string TokenType { get; init; }
 
         /// <summary>
         /// Gets or sets the lifetime in seconds of the access token.

@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core.Hosting\Core.Hosting.csproj" />
     <ProjectReference Include="..\Core.Logging\Core.Logging.csproj" />
   </ItemGroup>
 

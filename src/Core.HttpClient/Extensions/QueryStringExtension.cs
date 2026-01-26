@@ -38,7 +38,7 @@ namespace Core.HttpClient.Extensions
                 {
                     StringValues stringValues = value switch
                     {
-                        Array array => new StringValues(array.Cast<object>().Select(v => v.ToString()).ToArray()),
+                        Array array => new StringValues([.. array.Cast<object>().Select(v => v.ToString())]),
                         _ => new StringValues(value.ToString())
                     };
 

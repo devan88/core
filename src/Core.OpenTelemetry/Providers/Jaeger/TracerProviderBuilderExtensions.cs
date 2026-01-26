@@ -21,7 +21,7 @@ namespace Core.OpenTelemetry.Providers.Jaeger
             this TracerProviderBuilder tracerProviderBuilder,
             IConfiguration configuration)
         {
-            Action<JaegerExporterOptions> configureOptions = options => configuration
+            void configureOptions(JaegerExporterOptions options) => configuration
                 .GetSection(Constant.JaegerSection)
                 .Bind(options);
 

@@ -7,13 +7,16 @@ namespace Core.HttpClient.Authorization.Azure
     /// <summary>
     /// Azure OAuth token implementation.
     /// </summary>
-    public sealed class AzureOAuthTokenProviderService : IOAuthTokenProviderService
+    public sealed class AzureOAuthTokenProvider : IOAuthTokenProvider
     {
-        private readonly ILogger<AzureOAuthTokenProviderService> _logger;
+        private readonly ILogger<AzureOAuthTokenProvider> _logger;
         private readonly AzureAuthConfiguration _azureAuthConfiguration;
 
-        public AzureOAuthTokenProviderService(
-            ILogger<AzureOAuthTokenProviderService> logger,
+        /// <inheritdoc/>
+        public string Id => _azureAuthConfiguration.ClientId;
+
+        public AzureOAuthTokenProvider(
+            ILogger<AzureOAuthTokenProvider> logger,
             IOptions<AzureAuthConfiguration> options)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -21,7 +24,7 @@ namespace Core.HttpClient.Authorization.Azure
         }
 
         /// <inheritdoc/>
-        public async Task<string> GetAccessTokenAsync(CancellationToken cancellationToken)
+        public async Task<OAuthToken> GetAccessTokenAsync(CancellationToken cancellationToken)
         {
             IConfidentialClientApplication app = ConfidentialClientApplicationBuilder
                 .Create(_azureAuthConfiguration.ClientId)
@@ -38,7 +41,19 @@ namespace Core.HttpClient.Authorization.Azure
 
             _logger.LogInformation("Received access token for clientId=<{ClientId}>", _azureAuthConfiguration.ClientId);
 
-            return result.AccessToken;
+            OAuthToken oauthToken = MapToOAuthTokenResponse(result);
+
+            return oauthToken;
+        }
+
+        private static OAuthToken MapToOAuthTokenResponse(AuthenticationResult result)
+        {
+            return new OAuthToken()
+            {
+                AccessToken = result.AccessToken,
+                ExpiresOn = result.ExpiresOn,
+                TokenType = result.TokenType,
+            };
         }
     }
 }

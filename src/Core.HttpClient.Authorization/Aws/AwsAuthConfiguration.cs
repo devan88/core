@@ -2,9 +2,9 @@
 {
     /// <summary>
     /// Represents the authorization configuration settings for AWS.
-    /// Inherits from <see cref="BearerTokenAuthConfiguration"/> and adds AWS-specific properties.
+    /// Inherits from <see cref="OAuthConfiguration"/> and adds AWS-specific properties.
     /// </summary>
-    public sealed record AwsAuthConfiguration : BearerTokenAuthConfiguration
+    public sealed record AwsAuthConfiguration : OAuthConfiguration
     {
         /// <summary>
         /// Gets or sets the AWS region.
@@ -22,16 +22,6 @@
         /// Gets the token endpoint URL for AWS Cognito OAuth2 authentication.
         /// The URL is dynamically constructed using the specified <see cref="Region"/> and <see cref="Domain"/>.
         /// </summary>
-        public string TokenEndpoint => $"https://{Region}{Domain}.auth.{Region}.amazoncognito.com/oauth2/token";
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AwsAuthConfiguration"/> class.
-        /// The constructor sets the CloudProvider property to AWS to ensure the configuration
-        /// is specific to the AWS cloud environment.
-        /// </summary>
-        public AwsAuthConfiguration()
-        {
-            CloudProvider = CloudProvider.Aws;
-        }
+        public override string Endpoint => $"https://{Region}{Domain}.auth.{Region}.amazoncognito.com/oauth2/token";
     }
 }

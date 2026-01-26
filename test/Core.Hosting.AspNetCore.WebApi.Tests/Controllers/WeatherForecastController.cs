@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Hosting.AspNetCore.WebApi.Tests
 {
-    [ApiController]
-    [Route("api/[controller]/[action]")]
+    //[ApiController]
+    //[Route("api/[controller]/[action]")]
     //[Authorize]
-    public class WeatherForecastController : ControllerBase
+    [AllowAnonymous]
+    public class WeatherForecastController : BaseController
     {
         private static readonly string[] Summaries = new[]
         {

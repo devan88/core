@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -7,9 +7,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Client" />
+    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" />
+    <PackageReference Include="Scrutor" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core.Caching\Core.Caching.csproj" />
     <ProjectReference Include="..\Core.HttpClient\Core.HttpClient.csproj" />
   </ItemGroup>
 

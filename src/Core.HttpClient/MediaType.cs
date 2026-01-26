@@ -16,8 +16,6 @@ namespace Core.HttpClient
              "text/xml",
              "application/soap+xml");
 
-
-
         /// <summary>
         /// Readonly list for Json media types.
         /// </summary>
@@ -25,5 +23,14 @@ namespace Core.HttpClient
             StringComparer.OrdinalIgnoreCase,
             "application/json",
             "text/json");
+
+        /// <summary>
+        /// Readonly list for MessagePack media types.
+        /// </summary>
+        public static readonly ImmutableHashSet<string> MessagePack = ImmutableHashSet.Create(
+            StringComparer.OrdinalIgnoreCase,
+            "application/x-msgpack",
+            "application/msgpack",
+            "application/vnd.msgpack");
     }
 }

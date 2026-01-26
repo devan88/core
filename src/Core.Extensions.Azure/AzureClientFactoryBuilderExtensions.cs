@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Core.Extensions.Hosting;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Hosting;
 

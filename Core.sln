@@ -66,6 +66,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.OpenTelemetry", "src\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.OpenTelemetry.AspNetCore", "src\Core.OpenTelemetry.AspNetCore\Core.OpenTelemetry.AspNetCore.csproj", "{03D52F21-C1E3-4993-8576-914A6A3E3D9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Caching", "src\Core.Caching\Core.Caching.csproj", "{08AF3651-E477-4624-98FF-CA7EFCDA5304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Hosting.AspNetCore", "src\Core.Hosting.AspNetCore\Core.Hosting.AspNetCore.csproj", "{E2924876-25B0-49BB-9669-617692845DD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -172,6 +176,14 @@ Global
 		{03D52F21-C1E3-4993-8576-914A6A3E3D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03D52F21-C1E3-4993-8576-914A6A3E3D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03D52F21-C1E3-4993-8576-914A6A3E3D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08AF3651-E477-4624-98FF-CA7EFCDA5304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08AF3651-E477-4624-98FF-CA7EFCDA5304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08AF3651-E477-4624-98FF-CA7EFCDA5304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08AF3651-E477-4624-98FF-CA7EFCDA5304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2924876-25B0-49BB-9669-617692845DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2924876-25B0-49BB-9669-617692845DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2924876-25B0-49BB-9669-617692845DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2924876-25B0-49BB-9669-617692845DD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -202,6 +214,8 @@ Global
 		{77FAE94F-72AF-4D83-8035-E80C379791E0} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
 		{2508370F-2EA7-4973-A8E3-BB218AF3C0BE} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
 		{03D52F21-C1E3-4993-8576-914A6A3E3D9D} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
+		{08AF3651-E477-4624-98FF-CA7EFCDA5304} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
+		{E2924876-25B0-49BB-9669-617692845DD8} = {57363F2B-73C2-49EE-B4EA-AD7E39E2B109}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C6F6174-0B83-4690-B2DB-6D6E465B4D99}
